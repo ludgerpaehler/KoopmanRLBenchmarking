@@ -130,6 +130,7 @@ venv.bak/
 
 # Saved models
 **/*.pickle
+**/*.pt
 
 # Saved images
 **/*.png
