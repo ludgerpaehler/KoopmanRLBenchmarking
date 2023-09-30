@@ -128,5 +128,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# saved models
+# Saved models
 **/*.pickle
+
+# Saved images
+**/*.png
