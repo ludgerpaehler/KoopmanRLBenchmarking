@@ -134,3 +134,6 @@ venv.bak/
 
 # Saved images
 **/*.png
+
+# Saved data files
+**/*.csv
