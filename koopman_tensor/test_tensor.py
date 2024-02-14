@@ -29,6 +29,8 @@ parser.add_argument('--action-order', type=int, default=2,
                     help='Order of monomials to use for action dictionary (default: 2)')
 parser.add_argument('--seed', type=int, default=123,
                     help='Seed for some level of reproducibility (default: 123)')
+parser.add_argument('--tensor-name', type=str, default="path_based_tensor",
+                    help='Name to store the tensor under. Can be found in koopman_tensor/saved_models/env_id')
 parser.add_argument('--save-model', type=lambda x: bool(strtobool(x)), default=False, nargs="?", const=True,
                     help='Whether to store the Koopman tensor model in a pickle file (default: False)')
 parser.add_argument('--animate', type=lambda x: bool(strtobool(x)), default=False, nargs="?", const=True,
@@ -204,4 +206,4 @@ print(f"Average single step phi estimation error norm per average phi norm: {avg
 """ Save Koopman tensor """
 
 if args.save_model:
-    save_tensor(path_based_tensor, args.env_id, "path_based_tensor")
+    save_tensor(path_based_tensor, args.env_id, args.tensor_name)
