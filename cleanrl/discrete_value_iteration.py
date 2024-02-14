@@ -78,7 +78,7 @@ class DiscreteKoopmanValueIterationPolicy:
         random.seed(seed)
         np.random.seed(seed)
         torch.manual_seed(seed)
-        torch.backends.cudnn.deterministic = args.torch_deterministic
+        #torch.backends.cudnn.deterministic = args.torch_deterministic
 
         self.gamma = gamma
         self.alpha = alpha
@@ -557,7 +557,8 @@ if __name__ == "__main__":
         "|param|value|\n|-|-|\n%s" % ("\n".join([f"|{key}|{value}|" for key, value in vars(args).items()])),
     )
 
-    device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
+    #device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
+    device = torch.device("cpu")
 
     envs = gym.vector.SyncVectorEnv([make_env(args.env_id, args.seed, 0, False, run_name)])
 
