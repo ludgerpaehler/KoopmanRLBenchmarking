@@ -37,12 +37,6 @@ def parse_args():
         help="the entity (team) of wandb's project (default: None)")
     parser.add_argument("--capture-video", type=lambda x: bool(strtobool(x)), default=False, nargs="?", const=True,
         help="whether to capture videos of the agent performances (check out `videos` folder; default: False)")
-
-    # Algorithm specific arguments
-    # parser.add_argument("--env-id", type=str, default="Hopper-v4",
-    #     help="the id of the environment")
-    # parser.add_argument("--env-id", type=str, default="Hopper-v3",
-    #     help="the id of the environment")
     parser.add_argument("--env-id", type=str, default="LinearSystem-v0",
         help="the id of the environment (default: LinearSystem-v0)")
     parser.add_argument("--total-timesteps", type=int, default=1000000,
@@ -75,6 +69,8 @@ def parse_args():
         help="automatic tuning of the entropy coefficient (default: True)")
     parser.add_argument("--alpha-lr", type=float, default=1e-3,
         help="the learning rate of the alpha network optimizer (default: 0.001)")
+    parser.add_argument("--koopman-tensor", type=str, default="path_based_tensor",
+        help="Name of the Koopman tensor, storage folder must be env_id i.e. /koopman_tensor/saved_models/env_id/...")
     parser.add_argument("--koopman", type=lambda x:bool(strtobool(x)), default=False, nargs="?", const=True,
         help="use Koopman V function (default: False)")
     args = parser.parse_args()
@@ -237,7 +233,10 @@ if __name__ == "__main__":
     actor = Actor(envs).to(device)
 
     if args.koopman:
-        koopman_tensor = load_tensor(args.env_id, "path_based_tensor")
+        # Load the Koopman Tensor from the specified tensor file
+        koopman_tensor = load_tensor(args.env_id, args.koopman_tensor)
+
+        # Construct the Koopman network
         vf = SoftKoopmanVNetwork(koopman_tensor).to(device)
         vf_target = SoftKoopmanVNetwork(koopman_tensor).to(device)
     else:
