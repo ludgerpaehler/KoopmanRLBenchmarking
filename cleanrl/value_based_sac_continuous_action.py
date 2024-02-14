@@ -71,6 +71,8 @@ def parse_args():
         help="the learning rate of the alpha network optimizer (default: 0.001)")
     parser.add_argument("--koopman-tensor", type=str, default="path_based_tensor",
         help="Name of the Koopman tensor, storage folder must be env_id i.e. /koopman_tensor/saved_models/env_id/...")
+    parser.add_argument("--koopman-name-arg", type=str, default=None,
+        help="Attach custom naming arguments to the run file for benchmarking")
     parser.add_argument("--koopman", type=lambda x:bool(strtobool(x)), default=False, nargs="?", const=True,
         help="use Koopman V function (default: False)")
     args = parser.parse_args()
@@ -197,7 +199,10 @@ class Actor(nn.Module):
 
 if __name__ == "__main__":
     args = parse_args()
-    run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
+    if args.koopman:
+        run_name = f"{args.env_id}__{args.exp_name}__koopman__{args.koopman_name_arg}__{args.seed}__{int(time.time())}"
+    else:
+        run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
     if args.track:
         import wandb
 
