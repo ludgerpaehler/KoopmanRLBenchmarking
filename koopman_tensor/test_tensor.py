@@ -52,7 +52,7 @@ env = gym.make(args.env_id)
 
 # TODO: Reproducibility is broken in the custom envs
 
-env.seed(args.seed)
+env.reset(seed=args.seed)
 np.random.seed(args.seed)
 torch.random.manual_seed(args.seed)
 
