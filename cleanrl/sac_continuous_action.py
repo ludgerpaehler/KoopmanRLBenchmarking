@@ -372,7 +372,7 @@ if __name__ == "__main__":
             if global_step % 1000 == 0:
                 torch.save(
                     actor.state_dict(),
-                    f'./saved_models/{args.env_id}/sac_actor.pt'
+                    f'./saved_models/{args.env_id}/{args.seed}/sac_q_actor.pt'
                 )
 
     envs.close()
