@@ -75,6 +75,8 @@ def parse_args():
         help="automatic tuning of the entropy coefficient (default: True)")
     parser.add_argument("--alpha-lr", type=float, default=1e-3,
         help="the learning rate of the alpha network optimizer (default: 0.001)")
+    parser.add_argument("--state-dict", type=str, default=None,
+        help="State dictionary of a trained agent.")
     parser.add_argument("--koopman", type=lambda x:bool(strtobool(x)), default=False, nargs="?", const=True,
         help="use Koopman V function (default: False)")
     args = parser.parse_args()
@@ -235,7 +237,7 @@ if __name__ == "__main__":
     max_action = float(envs.single_action_space.high[0])
 
     actor = Actor(envs).to(device)
-    actor.load_state_dict(torch.load(f'./saved_models/{args.env_id}/value_based_sa{"k" if args.koopman else ""}c_actor.pt'))
+    actor.load_state_dict(torch.load(args.state_dict))
 
     envs.single_observation_space.dtype = np.float64
     start_time = time.time()

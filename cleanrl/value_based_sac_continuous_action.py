@@ -395,7 +395,8 @@ if __name__ == "__main__":
                 sps = int(global_step / (time.time() - start_time))
                 print("Steps per second (SPS):", sps)
                 writer.add_scalar("charts/SPS", sps, global_step)
-
+            
+            # TODO Right now we presume the folders to already exist, this needs to be changed
             # Save policy network every so often
             if global_step % 1000 == 0:
                 torch.save(
