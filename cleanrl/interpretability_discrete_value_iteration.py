@@ -50,8 +50,7 @@ def parse_args():
         help="Name the saved model is to be stored into. Default path: saved_models/env_id/model_name")
     
     # Interpretability-specific argument(s)
-    parser.add_argument("--value-fn-weights", type=list,
-        default=[[-300.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [200.0], [0.0], [150.0]],
+    parser.add_argument("--value-fn-weights", type=int, default=1,
         help="Array of array of the weights for the individual terms defining the value function. Presumes an order 2 monomial space.")
 
     args = parser.parse_args()
@@ -102,6 +101,16 @@ if __name__ == "__main__":
         num=args.num_actions
     )).T
 
+    # Decide on which extracted value function is to be used
+    if args.value_fn_weights == 1:
+        extracted_value_function = torch.tensor([[-300.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [200.0], [0.0], [150.0]])
+    elif args.value_fn_weights == 2:
+        extracted_value_function = torch.tensor([[-300.0], [0.0], [0.0], [0.0], [300.0], [0.0], [0.0], [200.0], [0.0], [0.0]])
+    elif args.value_fn_weights == 3:
+        extracted_value_function = torch.tensor([[0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [200.0], [0.0], [0.0]])
+    else:
+        raise RuntimeError
+
     value_iteration_policy = DiscreteKoopmanValueIterationPolicy(
         env_id=args.env_id,
         gamma=args.gamma,
@@ -115,7 +124,7 @@ if __name__ == "__main__":
         dt=dt,
         seed=args.seed,
         load_model=True,
-        initial_value_function_weights=torch.tensor(args.value_fn_weights),
+        initial_value_function_weights=extracted_value_function,
         args=args
     )
 
