@@ -1,10 +1,18 @@
 import numpy as np
-
+import argparse
 import numpy as np
 import os
 
 from analysis.utils import create_folder
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path", type=str, default="./runs",
+        help="Path to the directory holding the tensorboard dirs")
+    parser.add_argument("--file-name", type=str, default=None,
+        help="Name of the tensorboard file")
+    return args
 
 def collect_episodic_returns(
     tensorboard_file_directory: str,
@@ -38,17 +46,10 @@ def collect_episodic_returns(
     return episodic_returns, steps
 
 if __name__ == '__main__':
-    # Going to collect the episodic return data for the following files
-    path = "./runs"
-    file_names = [
-        # "FluidFlow-v0__sac_continuous_action__1__1706390314",
-        # "FluidFlow-v0__sac_continuous_action_eval__1__1706392297"
+    args = parse_args()
 
-        # "FluidFlow-v0__interpretability_discrete_value_iteration__1__1707412846",
-        # "FluidFlow-v0__interpretability_discrete_value_iteration__1__1707413302",
-        # "FluidFlow-v0__interpretability_discrete_value_iteration__1__1707413512",
-        "FluidFlow-v0__interpretability_discrete_value_iteration__1__1707413673",
-    ]
+    path = args.path
+    file_names = args.file_name
 
     # For each tensorboard file in the pre-defined list above,
     for i, file_name in enumerate(file_names):
