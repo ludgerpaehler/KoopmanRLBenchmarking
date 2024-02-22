@@ -37,12 +37,6 @@ def parse_args():
         help="the entity (team) of wandb's project (default: None)")
     parser.add_argument("--capture-video", type=lambda x: bool(strtobool(x)), default=False, nargs="?", const=True,
         help="whether to capture videos of the agent performances (check out `videos` folder; default: False)")
-
-    # Algorithm specific arguments
-    # parser.add_argument("--env-id", type=str, default="Hopper-v4",
-    #     help="the id of the environment")
-    # parser.add_argument("--env-id", type=str, default="Hopper-v3",
-    #     help="the id of the environment")
     parser.add_argument("--env-id", type=str, default="LinearSystem-v0",
         help="the id of the environment (default: LinearSystem-v0)")
     parser.add_argument("--total-timesteps", type=int, default=1000000,
@@ -369,11 +363,11 @@ if __name__ == "__main__":
                     writer.add_scalar("losses/alpha_loss", alpha_loss.item(), global_step)
 
             # Save policy network every so often
-            if global_step % 1000 == 0:
-                torch.save(
-                    actor.state_dict(),
-                    f'./saved_models/{args.env_id}/{args.seed}/sac_q_actor.pt'
-                )
+            #if global_step % 1000 == 0:
+            #    torch.save(
+            #        actor.state_dict(),
+            #        f'./saved_models/{args.env_id}/{args.seed}/sac_q_actor.pt'
+            #    )
 
     envs.close()
     writer.close()
