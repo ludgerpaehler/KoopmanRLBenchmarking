@@ -137,3 +137,6 @@ venv.bak/
 
 # Saved data files
 **/*.csv
+
+# Koopman benchmarking environment
+koopman_env/
